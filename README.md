@@ -1,8 +1,8 @@
 ## Yamin-movie app
 
-This simple movie app is to demonstrate basic CRUD using laravel resources, concept of routing and more importantly the concept of Testing using phpunit. The feature for this app as follow:
+This simple movie app is to demonstrate basic CRUD using laravel resources, concept of routing and the concept of Testing using phpunit. The feature for this app as follow:
 
-- User can add perform artisan command to get data (in this case movie information from IMBP API), and automatically populate the data into database.
+- User can add perform artisan command to get data (in this case movie information from IMDB API), and automatically populate the data into database.
 - User able to add movie into watchlist.
 - User able to store when they watched the movie by simple clicking on Watched/Unwatched button.
 - User able to create a new movie and store into the database.
@@ -15,7 +15,7 @@ This simple movie app is to demonstrate basic CRUD using laravel resources, conc
 1. Git pull from repo. Composer install and npm install.
 2. Run `php artisan migrate.`
 3. Run `php artisan create:newUser`
-4. `Run php artisan import:movieDatabase`*(Console will prompt to enter search keyword. 10 top movies/tv series according to that keyword will be pulled from IMDB API and automatically stored in the database)*
+4. Run `php artisan import:movieDatabase`*(Console will prompt to enter search keyword. 10 top movies/tv series according to that keyword will be pulled from IMDB API and automatically stored in the database)*
 
 ## To Run Testing
 1. Prepare the testing environment, change the `APP_ENV = local` to `APP_ENV = testing`
