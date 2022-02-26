@@ -8,6 +8,8 @@ This simple movie app is to demonstrate basic CRUD using laravel resources, conc
 - User able to create a new movie and store into the database.
 - User also able to perform artisan command to create new user.
 
+**Note: This app only serve for single user, meaning only 1 user able to create watchlist and update watched/unwatched for each movie (with default user id = 1)**
+
 ## Installation
 
 1. Git pull from repo. Composer install and npm install.

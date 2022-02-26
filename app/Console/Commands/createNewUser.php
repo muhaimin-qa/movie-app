@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Validation\ValidationException;
 
 class createNewUser extends Command
 {
@@ -12,7 +13,7 @@ class createNewUser extends Command
      *
      * @var string
      */
-    protected $signature = 'create:newUser {quantity : Number of user to be created}';
+    protected $signature = 'create:newUser';
 
     /**
      * The console command description.
@@ -38,9 +39,14 @@ class createNewUser extends Command
      */
     public function handle()
     {
-        for($i=0; $i<$this->argument('quantity'); $i++){
+        $quantity = $this->ask('How many user?');
+        
+        if($quantity == '' or $quantity == '0' or $quantity < 0){
+            $this->error('Value cannot be null, 0 or negative');
+        }
+
+        for($i=0; $i<$quantity; $i++){
             $user = User::factory()->create();
-             
             $this->info('User created '.$user->name);
         }
         

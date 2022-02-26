@@ -14,7 +14,7 @@ class importMovieDatabase extends Command
      *
      * @var string
      */
-    protected $signature = 'import:movieDatabase {search : Search what movie}';
+    protected $signature = 'import:movieDatabase';
 
     /**
      * The console command description.
@@ -40,15 +40,14 @@ class importMovieDatabase extends Command
      */
     public function handle()
     {
-
-        info('haha');
+        $search = $this->ask('Enter search keyword');
 
         //get data from API
         $response = Http::withHeaders([
             'x-rapidapi-host' => 'imdb8.p.rapidapi.com',
             'x-rapidapi-key' => 'c11f77d905mshd2273d8fab8857ap1f310fjsnc352c64d4366'
         ])->get('https://imdb8.p.rapidapi.com/auto-complete', [
-            'q' => $this->argument('search'),
+            'q' => $search,
         ])->json()['d'];
 
         //create movie in database based on response data

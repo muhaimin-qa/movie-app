@@ -17,23 +17,11 @@ class MovieController extends Controller
      */
     public function index()
     {
-        $favoriteMovies = Movie::all();
         
+        $favoriteMovies = Movie::all();
         $watchlist = Watchlist::all();
 
-        //get movie result based on query = 'game'
-        $response = Http::withHeaders([
-            'x-rapidapi-host' => 'imdb8.p.rapidapi.com',
-            'x-rapidapi-key' => 'c11f77d905mshd2273d8fab8857ap1f310fjsnc352c64d4366'
-        ])->get('https://imdb8.p.rapidapi.com/auto-complete', [
-            'q' => 'game',
-        ])->json()['d'];
-
-        // dump($response);
-        // dump($favoriteMovies);
-        $movies = $response;
-
-        return view('movies.index', compact('movies','favoriteMovies', 'watchlist'));
+        return view('movies.index', compact('favoriteMovies', 'watchlist'));
 
     }
 
@@ -69,6 +57,7 @@ class MovieController extends Controller
     {
         $watchlist = new Watchlist;
 
+        //default add to user id = 1
         $watchlist->user_id = '1';
         $watchlist->movie_id = $request->movie_id;
         $watchlist->name = $request->name;
@@ -77,42 +66,15 @@ class MovieController extends Controller
 
         //check if movie exist in watchlist
         if (Watchlist::where('movie_id', '=', $request->movie_id)->exists()) {
-            
             return redirect()->route('movies.index')->with('success',$request->name.' already in Watchlist');
         }
         else{
             if ($watchlist->save()) {
                 return redirect()->route('movies.index')->with('success',$request->name.' added to watchlist');
             }
-
         }
 
         
-    }
-
-    // Get movie from API, when user clicked favorite, copy movie to DB 
-    //tak pakai nak delete
-    public function favorite(Request $request)
-    {
-        $movie = new Movie;
-
-        //check if favorite movie exist
-        if (Movie::where('movie_id', '=', $request->movie_id)->exists()) {
-            
-            return redirect()->route('movies.index')->with('success', 'Movie'.$request->name.' already in fav list');
-
-        }
-        //add to db
-        else{
-            
-            $movie->name = $request->title;
-            $movie->movie_id = $request->movie_id;
-        
-            if ($movie->save()) {
-                return redirect()->route('movies.index')->with('success', 'Movie'.$request->name.' faved');
-            }
-            return;
-        }        
     }
     
     //user watched/unwatched the movie in watchlsit
@@ -140,22 +102,6 @@ class MovieController extends Controller
         return view('movies.show', compact('movie'));
     }
 
-    public function showDetail($id)
-    {   
-        //get movie detail based on $id
-        $response = Http::withHeaders([
-            'x-rapidapi-host' => 'imdb8.p.rapidapi.com',
-            'x-rapidapi-key' => 'c11f77d905mshd2273d8fab8857ap1f310fjsnc352c64d4366'
-        ])->get('https://imdb8.p.rapidapi.com/title/get-details', [
-            'tconst' => $id,    
-        ])->json();
-
-        dump($response);
-
-        $movie = $response;
-
-        return view('movies.showDetail', compact('movie'));
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -166,27 +112,6 @@ class MovieController extends Controller
     public function edit(Movie $movie)
     {
         return view('movies.edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Movie  $movie
-     * @return \Illuminate\Http\Response
-     */
-
-     //nak delete tak pakai
-    public function update(Request $request, Movie $movie)
-    {
-        $movie->update($request->all());
-        
-        if($request->favorite == "YES"){
-            return redirect()->route('movies.index')->with('success','Movie Faved');
-        }
-
-        return redirect()->route('movies.index')->with('success','Movie Unfaved');
-        
     }
 
     /**

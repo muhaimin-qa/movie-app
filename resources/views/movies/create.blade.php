@@ -2,7 +2,7 @@
  
 @section('content')
     <a href="{{ route('movies.index') }}">Back to Index</a> 
-    <h1>Create New Movie<h1>
+    <h1>Create New Movie</h1>
     
     
     @if ($errors->any())

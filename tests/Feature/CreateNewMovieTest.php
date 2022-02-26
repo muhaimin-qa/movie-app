@@ -22,13 +22,12 @@ class CreateNewMovieTest extends TestCase
     public function user_can_view_movie_index_page()
     {
         //Create 1 user
-        $user = User::factory()->create();
+        $user = User::factory()->create(['id' => '1']);
         $user->save();
 
-        //Populate movie db first
+        //Populate movie database
         $movie = Movie::factory()->create();
         $movie->save();
-
 
         $response = $this->get('/movies');
 
@@ -46,10 +45,6 @@ class CreateNewMovieTest extends TestCase
         $movie = Movie::factory()->create();
         $movie->save();
 
-        //Create Watchlist
-        $watchlist = Watchlist::factory()->create();
-        $watchlist->save();
-
         $response = $this->get(route('movies.show', $movie->id));
 
         $response->assertStatus(200);
@@ -64,13 +59,34 @@ class CreateNewMovieTest extends TestCase
 
         //Create 1 movie
         $movie = Movie::factory()->create();
-        
     
         $response = $this->post(route('movies.store'),[
             'name' => $movie->name,
         ]);
 
         $response->assertRedirect(route('movies.index'));
+        
+    }
+
+    /** @test */
+    // User cannot create movie without name
+    // Negative testing
+    public function user_cannot_create_new_movie_without_name(){
+
+        //Create 1 user
+        $user = User::factory()->create(['id' => '1']);
+        $user->save();
+
+        //Create 1 movie, set name = null
+        $movie = Movie::factory()->create([
+            'name' => null,
+        ]);
+    
+        $response = $this->post(route('movies.store'),[
+            'name' => $movie->name,
+        ]);
+
+        $response->assertSessionHasErrors(['name']);
         
     }
 
@@ -87,7 +103,7 @@ class CreateNewMovieTest extends TestCase
 
         //pilih movie tu, add ke watchlist
         $response = $this->post(route('add_to_watchlist'),[
-            'name' => $movie->name,
+        'name' => $movie->name,
             'user_id' => $user->id,
             'movie_id' => $movie->id,
             'is_watched' => 'NO'
@@ -139,21 +155,30 @@ class CreateNewMovieTest extends TestCase
     }
 
     /** @test */
-    //testing php artisan import:movieDatabase Avengers (search = Avengers)
+    //testing php artisan import:movieDatabase Avengers (search keyword = Avengers)
     public function test_artisan_command_import_new_movies_to_db(){
-        $this->artisan('import:movieDatabase Avengers')->assertExitCode(0);
+        $this->artisan('import:movieDatabase')
+        ->expectsQuestion('Enter search keyword','Avengers')
+        ->expectsOutput('Database import success!')
+        ->assertExitCode(0);
     
     }
 
+     /** @test */
+    // Negative testing php artisan import:movieDatabase without search param, will throw exception message
+    // in console
+    public function test_artisan_command_import_new_movies_to_db_has_error(){
+
+        $this->expectExceptionMessage('Trying to access array offset on value of type null');
+        $this->artisan('import:movieDatabase')->expectsQuestion('Enter search keyword','');
+    
+    }
+
+
     /** @test */
-    //testing php artisan create:newUser 1 (quantity = 1)
+    // Testing php artisan create:newUser 1 (quantity = 1)
     public function test_artisan_command_create_new_user(){
         $this->artisan('create:newUser 1')->assertExitCode(0);
     
-    }
-
-    //create negative testing
-    public function user_cannot_create_user_without_name(){
-        
     }
 }
