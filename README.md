@@ -28,6 +28,8 @@ For example in phpunit.xml I used the following values:
     <server name="DB_CONNECTION" value="mysql"/>
     <server name="DB_DATABASE" value="moviedb_test"/>
 
+Note:run php artisan optimize to clear cache/route after changing values in .env file.
+
 Run the test using **`php artisan test`** or **`./vendor/bin/phpunit`**
 
 ## The Test Cases
