@@ -49,6 +49,29 @@ class importMovieDatabase extends Command
         ])->get('https://imdb8.p.rapidapi.com/auto-complete', [
             'q' => $search,
         ])->json()['d'];
+        
+        //dd($response);
+
+        // $response = Http::fake([
+        //     'https://imdb8.p.rapidapi.com/auto-complete*' => Http::response(
+        //         [
+        //             'd' => [
+        //                 'i' => [
+        //                     'height' => 2048,
+        //                     'imageUrl' => "https://m.media-amazon.com/images/M/MV5BMjI3ODkzNDk5MF5BMl5BanBnXkFtZTgwNTEyNjY2NDM@._V1_.jpg",
+        //                     'width' => 1382,
+        //                 ],
+        //                   'id' => 'tt2704998',
+        //                   'l' => 'Game Night',
+        //                   'q' => 'feature',
+        //                   'rank' => 2044,
+        //                   's' => 'Jason Bateman, Rachel McAdams',
+        //                   'y' => 2018,
+        //                 ]
+        //             ],
+        //         200
+        //     )]);
+
 
         //create movie in database based on response data
         foreach($response as $movie)

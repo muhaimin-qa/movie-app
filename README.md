@@ -13,34 +13,46 @@ This simple movie app is to demonstrate basic CRUD using laravel resources, conc
 ## Installation
 
 1. Git pull from repo. Composer install and npm install.
-2. Run *php artisan migrate*.
-3. Run *php artisan create:newUser 1* (change 1 to you desired quantity).
-4. Run *php artisan import:movieDatabase Avengers* (change Avengers to any other keyword search. 10 top movies according to that keyword will be pulled from IMDB API and automatically stored in the database)
+2. Run `php artisan migrate.`
+3. Run `php artisan create:newUser`
+4. `Run php artisan import:movieDatabase`*(Console will prompt to enter search keyword. 10 top movies/tv series according to that keyword will be pulled from IMDB API and automatically stored in the database)*
 
-## To run Test
-1. Prepare the testing environment, change the *APP_ENV = local* to *APP_ENV = testing*.
+## To Run Testing
+1. Prepare the testing environment, change the `APP_ENV = local` to `APP_ENV = testing`
 
 
-2. Recommended to create a new database for testing, if you do this, change the *DB_DATABASE = "Your test DB"* in .env. Alternatively you also change it in phpunit.xml.
+2. Recommended to create a new database for testing, if you do this, change the `DB_DATABASE = "Your test DB"` in .env. Alternatively you also change it in **phpunit.xml.**
 
 For example in phpunit.xml I used the following values:
 
     <server name="DB_CONNECTION" value="mysql"/>
     <server name="DB_DATABASE" value="moviedb_test"/>
 
-Run the test using *php artisan test*
+Run the test using **`php artisan test`** or **`./vendor/bin/phpunit`**
 
-## Test Cases
+## The Test Cases
 
 These are the test cases in this app:
 
-1. user can view movie index page (testing for route /movies)
-2. user can view movie detail page (testing for route /movie/{id})
-3. user can create new movie (testing for method /movie/create)
-4. user can add movie to watchlist (testing for method movie/add_to_watchlist)
-5. user can update movie to watched (testing for method movies/update_watch/{watchlist})
-6. user can update movie to unwatched (testing for method movies/update_watch/{watchlist})
-7. artisan command import new movies to db (testing artisan command php artisan import:movieDatabase Avengers)
-8. artisan command create new user (testing php artisan create:newUser 1)
+ 1. user can view movie index page **(testing for route /movies)**
+ 
+ 2. user can view movie detail page **(testing for route /movie/{id})**
+
+ 3. user can create new movie **(testing for method /movie/create)**
+ 
+ 4. user cannot create new movie without name **(negative testing, error exception when trying to create movie without name)**
+ 
+ 5. user can add movie to watchlist **(testing for method movie/add_to_watchlist)**
+ 
+ 6. user can update movie to watched **(testing for method movies/update_watch/{watchlist})**
+ 
+ 7. user can update movie to unwatched **(testing for method movies/update_watch/{watchlist})**'
+ 
+ 8. artisan command import new movies to db **(testing artisan command php artisan import:movieDatabase game. Mock response with Http::fake)**
+ 
+ 9. artisan command import new movies to db has error (**negative testing, will throw exception error when running command without parameter)**
+ 
+ 10. artisan command create new user **(testing php artisan create:newUser 1)**
+
 
 All test cases should be **Passed**, if you encounter any issue running the test, kindly check your .env or phpunit.xml setting.

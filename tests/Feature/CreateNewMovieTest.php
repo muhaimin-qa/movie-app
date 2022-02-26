@@ -3,12 +3,11 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Movie;
 use App\Models\User;
 use App\Models\Watchlist;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Http;
 
 class CreateNewMovieTest extends TestCase
 {
@@ -91,6 +90,7 @@ class CreateNewMovieTest extends TestCase
     }
 
     /** @test */
+    // Test user can add movie to watchlist
     public function user_can_add_movie_to_watchlist()
     {
         //mcm biasa create 1 user id=1
@@ -113,6 +113,7 @@ class CreateNewMovieTest extends TestCase
     }
 
     /** @test */
+    // Test user can update movie to watched
     public function user_can_update_movie_to_watched()
     {
 
@@ -134,6 +135,7 @@ class CreateNewMovieTest extends TestCase
     }
 
     /** @test */
+    // Test user can update movie to unwatched
     public function user_can_update_movie_to_unwatched()
     {
 
@@ -155,18 +157,42 @@ class CreateNewMovieTest extends TestCase
     }
 
     /** @test */
-    //testing php artisan import:movieDatabase Avengers (search keyword = Avengers)
+    // Testing php artisan import:movieDatabase Avengers (search keyword = game)
+    // Mock Http response, return mock result with 2 data only
     public function test_artisan_command_import_new_movies_to_db(){
+
+        //mock response
+        Http::fake([
+            'https://imdb8.p.rapidapi.com/auto-complete*' => Http::response(
+                [
+                      "d" => [
+                            [
+                               "id" => "tt0944947", 
+                               "l" => "Game of Thrones", 
+                            ], 
+                            [
+                                
+                                "id" => "tt10919420", 
+                                "l" => "Squid Game", 
+ 
+                            ] 
+                         ], 
+                      "q" => "game", 
+                      "v" => 1    
+                ], 
+                200
+            )]);
+        
+    
         $this->artisan('import:movieDatabase')
-        ->expectsQuestion('Enter search keyword','Avengers')
+        ->expectsQuestion('Enter search keyword','game')
         ->expectsOutput('Database import success!')
         ->assertExitCode(0);
     
     }
 
      /** @test */
-    // Negative testing php artisan import:movieDatabase without search param, will throw exception message
-    // in console
+    // Negative testing php artisan import:movieDatabase without search param, will throw exception message in console
     public function test_artisan_command_import_new_movies_to_db_has_error(){
 
         $this->expectExceptionMessage('Trying to access array offset on value of type null');
@@ -178,7 +204,9 @@ class CreateNewMovieTest extends TestCase
     /** @test */
     // Testing php artisan create:newUser 1 (quantity = 1)
     public function test_artisan_command_create_new_user(){
-        $this->artisan('create:newUser 1')->assertExitCode(0);
+        $this->artisan('create:newUser')
+        ->expectsQuestion('How many user?', 1)
+        ->assertExitCode(0);
     
     }
 }
