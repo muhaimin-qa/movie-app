@@ -12,6 +12,6 @@ class Movie extends Model
     protected $fillable = [
         'movie_id',
         'name',
-        'favorite'
+        'favorite',
     ];
 }

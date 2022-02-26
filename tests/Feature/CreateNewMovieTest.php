@@ -88,7 +88,7 @@ class CreateNewMovieTest extends TestCase
         //pilih movie tu, add ke watchlist
         $response = $this->post(route('add_to_watchlist'),[
             'name' => $movie->name,
-            'user_id' => '1',
+            'user_id' => $user->id,
             'movie_id' => $movie->id,
             'is_watched' => 'NO'
         ]);
@@ -141,7 +141,7 @@ class CreateNewMovieTest extends TestCase
     /** @test */
     //testing php artisan import:movieDatabase Avengers (search = Avengers)
     public function test_artisan_command_import_new_movies_to_db(){
-        $this->artisan('import:movieDatabase Kuala')->assertExitCode(0);
+        $this->artisan('import:movieDatabase Avengers')->assertExitCode(0);
     
     }
 

@@ -1,56 +1,44 @@
-## About Laravel
+## Yamin-movie app
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This simple movie app is to demonstrate basic CRUD using laravel resources, concept of routing and more importantly the concept of Testing using phpunit. The feature for this app as follow:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- User can add perform artisan command to get data (in this case movie information from IMBP API), and automatically populate the data into database.
+- User able to add movie into watchlist.
+- User able to store when they watched the movie by simple clicking on Watched/Unwatched button.
+- User able to create a new movie and store into the database.
+- User also able to perform artisan command to create new user.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation
 
-## Learning Laravel
+1. Git pull from repo. Composer install and npm install.
+2. Run *php artisan migrate*.
+3. Run *php artisan create:newUser 1* (change 1 to you desired quantity).
+4. Run *php artisan import:movieDatabase Avengers* (change Avengers to any other keyword search. 10 top movies according to that keyword will be pulled from IMDB API and automatically stored in the database)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## To run Test
+1. Prepare the testing environment, change the *APP_ENV = local* to *APP_ENV = testing*.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+2. Recommended to create a new database for testing, if you do this, change the *DB_DATABASE = "Your test DB"* in .env. Alternatively you also change it in phpunit.xml.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+For example in phpunit.xml I used the following values:
 
-### Premium Partners
+    <server name="DB_CONNECTION" value="mysql"/>
+    <server name="DB_DATABASE" value="moviedb_test"/>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Run the test using *php artisan test*
 
-## Contributing
+## Test Cases
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+These are the test cases in this app:
 
-## Code of Conduct
+1. user can view movie index page (testing for route /movies)
+2. user can view movie detail page (testing for route /movie/{id})
+3. user can create new movie (testing for method /movie/create)
+4. user can add movie to watchlist (testing for method movie/add_to_watchlist)
+5. user can update movie to watched (testing for method movies/update_watch/{watchlist})
+6. user can update movie to unwatched (testing for method movies/update_watch/{watchlist})
+7. artisan command import new movies to db (testing artisan command php artisan import:movieDatabase Avengers)
+8. artisan command create new user (testing php artisan create:newUser 1)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# movie-app
+All test cases should be **Passed**, if you encounter any issue running the test, kindly check your .env or phpunit.xml setting.
