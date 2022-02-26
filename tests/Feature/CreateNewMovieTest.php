@@ -141,7 +141,7 @@ class CreateNewMovieTest extends TestCase
     /** @test */
     //testing php artisan import:movieDatabase Avengers (search = Avengers)
     public function test_artisan_command_import_new_movies_to_db(){
-        $this->artisan('import:movieDatabase Avengers')->assertExitCode(0);
+        $this->artisan('import:movieDatabase Kuala')->assertExitCode(0);
     
     }
 
@@ -150,5 +150,10 @@ class CreateNewMovieTest extends TestCase
     public function test_artisan_command_create_new_user(){
         $this->artisan('create:newUser 1')->assertExitCode(0);
     
+    }
+
+    //create negative testing
+    public function user_cannot_create_user_without_name(){
+        
     }
 }

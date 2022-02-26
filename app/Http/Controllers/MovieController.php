@@ -20,7 +20,6 @@ class MovieController extends Controller
         $favoriteMovies = Movie::all();
         
         $watchlist = Watchlist::all();
-        
 
         //get movie result based on query = 'game'
         $response = Http::withHeaders([
@@ -91,7 +90,8 @@ class MovieController extends Controller
         
     }
 
-    // Get movie from API, when user clicked favorite, copy movie to DB
+    // Get movie from API, when user clicked favorite, copy movie to DB 
+    //tak pakai nak delete
     public function favorite(Request $request)
     {
         $movie = new Movie;
@@ -125,8 +125,6 @@ class MovieController extends Controller
         }
 
         return redirect()->route('movies.index')->with('success','Movie set to unwatched');
-
-           
     }
 
     /**
@@ -177,6 +175,8 @@ class MovieController extends Controller
      * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Http\Response
      */
+
+     //nak delete tak pakai
     public function update(Request $request, Movie $movie)
     {
         $movie->update($request->all());

@@ -13,7 +13,7 @@
         <p>My Watchlist</p>
         <table>
             <tr>
-                <th style="width: 5%">IMDB ID</th>
+                <th style="width: 5%">ID</th>
                 <th>Movie Title</th>
                 <th style="width:20%">Watched?</th>
             </tr>

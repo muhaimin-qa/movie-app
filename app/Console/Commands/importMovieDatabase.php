@@ -41,6 +41,8 @@ class importMovieDatabase extends Command
     public function handle()
     {
 
+        info('haha');
+
         //get data from API
         $response = Http::withHeaders([
             'x-rapidapi-host' => 'imdb8.p.rapidapi.com',
