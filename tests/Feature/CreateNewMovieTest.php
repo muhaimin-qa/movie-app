@@ -58,11 +58,18 @@ class CreateNewMovieTest extends TestCase
         $user->save();
         
         $faker = \Faker\Factory::create();
+        $name = $faker->name();
 
         $response = $this->post(route('movies.store'),[
-            'name' => $faker->name(),
+            'name' => $name,
         ]);
 
+        //check database if the movie successfully added to db
+        $this->assertDatabaseHas('movies', [
+            'name' => $name,
+        ]);
+
+        //check correct redirection after successful movie creation
         $response->assertRedirect(route('movies.index'));
         
     }
@@ -195,8 +202,8 @@ class CreateNewMovieTest extends TestCase
     // Negative testing php artisan import:movieDatabase without search param, will throw exception message in console
     public function test_artisan_command_import_new_movies_to_db_has_error(){
 
-        $this->expectExceptionMessage('Trying to access array offset on value of type null');
         $this->artisan('import:movieDatabase')->expectsQuestion('Enter search keyword','');
+        $this->expectExceptionMessage('Trying to access array offset on value of type null');
     
     }
 
