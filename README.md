@@ -1,5 +1,7 @@
 ## Yamin-movie app
 
+NOTE: My free subscription has reached it's monthly limit. So command importing movies from API eg: php artisan import:movieDatabase param might not work 😅
+
 This simple movie app is to demonstrate basic CRUD using laravel resources, concept of routing and the concept of Testing using phpunit. The feature for this app as follow:
 
 - User can add perform artisan command to get data (in this case movie information from IMDB API), and automatically populate the data into database.
