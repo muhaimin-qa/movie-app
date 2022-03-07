@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Movie;
 use App\Models\User;
 use App\Models\Watchlist;
@@ -55,12 +56,11 @@ class CreateNewMovieTest extends TestCase
         //Create 1 user
         $user = User::factory()->create(['id' => '1']);
         $user->save();
+        
+        $faker = \Faker\Factory::create();
 
-        //Create 1 movie
-        $movie = Movie::factory()->create();
-    
         $response = $this->post(route('movies.store'),[
-            'name' => $movie->name,
+            'name' => $faker->name(),
         ]);
 
         $response->assertRedirect(route('movies.index'));
@@ -80,7 +80,7 @@ class CreateNewMovieTest extends TestCase
         $movie = Movie::factory()->create([
             'name' => null,
         ]);
-    
+        
         $response = $this->post(route('movies.store'),[
             'name' => $movie->name,
         ]);
