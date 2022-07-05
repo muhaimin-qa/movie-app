@@ -9,7 +9,7 @@
     @endif
     
     <div class="row">
-        <a href="{{ route('movies.create') }}">Create New Movie</a>
+        <a href="{{ route('movies.create') }}">AAAAAA Create New Movie</a>
         <p>My Watchlist</p>
         <table>
             <tr>
